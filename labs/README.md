@@ -24,6 +24,16 @@ java ConcurrencyBenefits --mode io --tasks 200 --threads 8 --sleepMs 20
 java RaceConditionAndFixes --threads 8 --iterations 2_000_000
 ```
 
+示例（第 2 章）：
+
+```powershell
+cd labs\02-thread-basics
+javac *.java
+java ThreadStateTransitionsDemo
+java InterruptScenariosDemo
+java JoinSleepYieldDaemonDemo --mode join-timeout
+```
+
 ## 约定
 
 - 每章一个目录：`labs/01-...`、`labs/02-...`……
