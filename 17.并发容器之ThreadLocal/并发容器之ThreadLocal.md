@@ -130,7 +130,7 @@ ThreadLocalMap是threadLocal一个静态内部类，和大多数容器一样内�
 
 Entry是一个以ThreadLocal为key,Object为value的键值对，另外需要注意的是这里的**threadLocal是弱引用，因为Entry继承了WeakReference，在Entry的构造方法中，调用了super(k)方法就会将threadLocal实例包装成一个WeakReferenece。**到这里我们可以用一个图（下图来自http://blog.xiaohansong.com/2016/08/06/ThreadLocal-memory-leak/）来理解下thread,threadLocal,threadLocalMap，Entry之间的关系：
 
-![ThreadLocal各引用间的关系](http://upload-images.jianshu.io/upload_images/2615789-12aef2e6ff040cae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/610)
+![ThreadLocal各引用间的关系](./ThreadLocal各引用间的关系.png)
 
 
 
@@ -148,7 +148,7 @@ Entry是一个以ThreadLocal为key,Object为value的键值对，另外需要注�
 理想状态下，散列表就是一个包含关键字的固定大小的数组，通过使用散列函数，将关键字映射到数组的不同位置。下面是
 
 
-![理想散列表的一个示意图](http://upload-images.jianshu.io/upload_images/2615789-bf2dfb86819f6823.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![理想散列表的一个示意图](./理想散列表的一个示意图.png)
 
 在理想状态下，哈希函数可以将关键字均匀的分散到数组的不同位置，不会出现两个关键字散列值相同（假设关键字数量小于数组的大小）的情况。但是在实际使用中，经常会出现多个关键字散列值相同的情况（被映射到数组的同一个位置），我们将这种情况称为散列冲突。为了解决散列冲突，主要采用下面两种方式： **分离链表法**（separate chaining）和**开放定址法**（open addressing）
 
@@ -159,7 +159,7 @@ Entry是一个以ThreadLocal为key,Object为value的键值对，另外需要注�
 分散链表法使用链表解决冲突，将散列值相同的元素都保存到一个链表中。当查询的时候，首先找到元素所在的链表，然后遍历链表查找对应的元素，典型实现为hashMap，concurrentHashMap的拉链法。下面是一个示意图：
 
 
-![分离链表法示意图](http://upload-images.jianshu.io/upload_images/2615789-32b422909f2f933c.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/610)
+![分离链表法示意图](./分离链表法示意图.gif)
 
 
 
@@ -170,7 +170,7 @@ Entry是一个以ThreadLocal为key,Object为value的键值对，另外需要注�
 
 开放定址法不会创建链表，当关键字散列到的数组单元已经被另外一个关键字占用的时候，就会尝试在数组中寻找其他的单元，直到找到一个空的单元。探测数组空单元的方式有很多，这里介绍一种最简单的 -- 线性探测法。线性探测法就是从冲突的数组单元开始，依次往后搜索空单元，如果到数组尾部，再从头开始搜索（环形查找）。如下图所示：
 
-![开放定址法示意图](http://upload-images.jianshu.io/upload_images/2615789-0d85565e94c4bd6b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/610)
+![开放定址法示意图](./开放定址法示意图.jpg)
 
 
 图片来自 http://alexyyek.github.io/2014/12/14/hashCollapse/

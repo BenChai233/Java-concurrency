@@ -84,7 +84,7 @@ CyclicBarrier也是一种多线程并发控制的实用工具，和CountDownLatc
 
 为了理解CyclicBarrier，这里举一个通俗的例子。开运动会时，会有跑步这一项运动，我们来模拟下运动员入场时的情况，假设有6条跑道，在比赛开始时，就需要6个运动员在比赛开始的时候都站在起点了，裁判员吹哨后才能开始跑步。跑道起点就相当于“barrier”，是临界点，而这6个运动员就类比成线程的话，就是这6个线程都必须到达指定点了，意味着凑齐了一波，然后才能继续执行，否则每个线程都得阻塞等待，直至凑齐一波即可。cyclic是循环的意思，也就是说CyclicBarrier当多个线程凑齐了一波之后，仍然有效，可以继续凑齐下一波。CyclicBarrier的执行示意图如下：
 
-![CyclicBarrier执行示意图.jpg](https://upload-images.jianshu.io/upload_images/2615789-5bacb4f757882e56.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/500)
+![CyclicBarrier执行示意图.jpg](./CyclicBarrier执行示意图.jpg)
 
 
 

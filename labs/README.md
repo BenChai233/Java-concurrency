@@ -1,41 +1,40 @@
-# Labs（可运行示例）
+﻿# Labs Index
 
-本目录用于存放与各章节配套的最小可运行实验（MRE），帮助把“概念”落到“可观察的现象”。
+实验目录按章节编号组织，每个实验尽量只验证一个结论。
 
-## 环境
+## 目录
 
-- JDK：21+
-- 不依赖 Maven/Gradle，直接使用 `javac`/`java`
+- [01-concurrency-pros-cons](./01-concurrency-pros-cons) - 并发编程的优缺点
+- [02-thread-basics](./02-thread-basics) - 线程的状态转换以及基本操作
+- [03-jmm-happens-before](./03-jmm-happens-before) - Java 内存模型与 happens-before
+- [04-synchronized](./04-synchronized) - 彻底理解 synchronized
+- [05-volatile](./05-volatile) - 彻底理解 volatile
+- [06-final](./06-final) - 你以为你真的了解 final 吗
+- [07-atomicity-visibility-ordering](./07-atomicity-visibility-ordering) - 原子性/可见性/有序性总结
+- [08-lock-aqs-intro](./08-lock-aqs-intro) - 初识 Lock 与 AQS
+- [09-aqs-deep-dive](./09-aqs-deep-dive) - 深入理解 AQS
+- [10-reentrantlock](./10-reentrantlock) - 彻底理解 ReentrantLock
+- [11-reentrantreadwritelock](./11-reentrantreadwritelock) - 深入理解读写锁 ReentrantReadWriteLock
+- [12-condition-await-signal](./12-condition-await-signal) - 详解 Condition 的 await 和 signal
+- [13-locksupport](./13-locksupport) - LockSupport 工具
+- [14-concurrenthashmap](./14-concurrenthashmap) - 并发容器之 ConcurrentHashMap
+- [15-concurrentlinkedqueue](./15-concurrentlinkedqueue) - 并发容器之 ConcurrentLinkedQueue
+- [16-copyonwritearraylist](./16-copyonwritearraylist) - 并发容器之 CopyOnWriteArrayList
+- [17-threadlocal](./17-threadlocal) - 并发容器之 ThreadLocal
+- [18-threadlocal-leak](./18-threadlocal-leak) - ThreadLocal 内存泄漏
+- [19-blockingqueue](./19-blockingqueue) - 并发容器之 BlockingQueue
+- [20-arrayblockingqueue-linkedblockingqueue](./20-arrayblockingqueue-linkedblockingqueue) - ArrayBlockingQueue 与 LinkedBlockingQueue
+- [21-threadpoolexecutor](./21-threadpoolexecutor) - 线程池 ThreadPoolExecutor
+- [22-scheduledthreadpoolexecutor](./22-scheduledthreadpoolexecutor) - ScheduledThreadPoolExecutor
+- [23-futuretask](./23-futuretask) - FutureTask
+- [24-atomic](./24-atomic) - atomic 包原子类
+- [25-countdownlatch-cyclicbarrier](./25-countdownlatch-cyclicbarrier) - CountDownLatch 与 CyclicBarrier
+- [26-semaphore-exchanger](./26-semaphore-exchanger) - Semaphore 与 Exchanger
+- [27-producer-consumer](./27-producer-consumer) - 生产者-消费者
 
-## 运行方式（Windows PowerShell）
+## 统一运行方式
 
-先确认你使用的是 JDK 21：
+- 编译：`javac *.java`
+- 运行：`java <MainClass>`
 
-```powershell
-java -version
-```
-
-示例（第 1 章）：
-
-```powershell
-cd labs\01-concurrency-pros-cons
-javac *.java
-java ConcurrencyBenefits --mode io --tasks 200 --threads 8 --sleepMs 20
-java RaceConditionAndFixes --threads 8 --iterations 2_000_000
-```
-
-示例（第 2 章）：
-
-```powershell
-cd labs\02-thread-basics
-javac *.java
-java ThreadStateTransitionsDemo
-java InterruptScenariosDemo
-java JoinSleepYieldDaemonDemo --mode join-timeout
-```
-
-## 约定
-
-- 每章一个目录：`labs/01-...`、`labs/02-...`……
-- 每个实验尽量只展示 1 个结论，避免把多个变量搅在一起
-- 输出尽量包含：参数、耗时、吞吐/正确性校验（便于复盘）
+每个实验目录内的 README 会给出参数与观察点。

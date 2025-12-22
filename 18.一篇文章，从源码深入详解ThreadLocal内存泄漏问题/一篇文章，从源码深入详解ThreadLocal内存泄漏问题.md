@@ -4,7 +4,7 @@ threadLocal是为了解决**对象不能被多线程共享访问**的问题，�
 
 关于threadLocal,threadLocalMap更多的细节可以看[这篇文章](https://juejin.im/post/5aeeb22e6fb9a07aa213404a)，给出了很详细的各个方面的知识（很多也是面试高频考点）。threadLocal,threadLocalMap,entry之间的关系如下图所示：
 
-![threadLocal引用示意图](http://upload-images.jianshu.io/upload_images/2615789-9107eeb7ad610325.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/620)
+![threadLocal引用示意图](./threadLocal引用示意图.png)
 
 
 
@@ -98,7 +98,7 @@ threadLocal是为了解决**对象不能被多线程共享访问**的问题，�
 
 	主要用于**扫描控制（scan control），从while中是通过n来进行条件判断的说明n就是用来控制扫描趟数（循环次数）的**。在扫描过程中，如果没有遇到脏entry就整个扫描过程持续log2(n)次，log2(n)的得来是因为`n >>>= 1`，每次n右移一位相当于n除以2。如果在扫描过程中遇到脏entry的话就会令n为当前hash表的长度（`n=len`），再扫描log2(n)趟，注意此时n增加无非就是多增加了循环次数从而通过nextIndex往后搜索的范围扩大，示意图如下
 
-![cleanSomeSlots示意图.png](http://upload-images.jianshu.io/upload_images/2615789-176285739b74da18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![cleanSomeSlots示意图.png](./cleanSomeSlots示意图.png)
 
 按照n的初始值，搜索范围为黑线，当遇到了脏entry，此时n变成了哈希数组的长度（n取值增大），搜索范围log2(n)增大，红线表示。如果在整个搜索过程没遇到脏entry的话，搜索结束，采用这种方式的主要是用于时间效率上的平衡。
 
@@ -173,7 +173,7 @@ threadLocal是为了解决**对象不能被多线程共享访问**的问题，�
 现在对cleanSomeSlot方法做一下总结，其方法执行示意图如下：
 
 
-![cleanSomeSlots示意图.png](http://upload-images.jianshu.io/upload_images/2615789-176285739b74da18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![cleanSomeSlots示意图.png](./cleanSomeSlots示意图.png)
 
 
 
@@ -185,7 +185,7 @@ threadLocal是为了解决**对象不能被多线程共享访问**的问题，�
 
 下面，以一个例子更清晰的来说一下，假设当前table数组的情况如下图。
 
-![cleanSomeSlots执行情景图.png](http://upload-images.jianshu.io/upload_images/2615789-217512cee7e45fc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![cleanSomeSlots执行情景图.png](./cleanSomeSlots执行情景图.png)
 
 
 1. 如图当前n等于hash表的size即n=10，i=1,在第一趟搜索过程中通过nextIndex,i指向了索引为2的位置，此时table[2]为null，说明第一趟未发现脏entry,则第一趟结束进行第二趟的搜索。
@@ -291,33 +291,33 @@ threadLocal是为了解决**对象不能被多线程共享访问**的问题，�
 		该情形如下图所示。
 
 
-![向前环形搜索到脏entry，向后环形查找到可覆盖的entry的情况.png](http://upload-images.jianshu.io/upload_images/2615789-ebc60645134a0342.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![向前环形搜索到脏entry，向后环形查找到可覆盖的entry的情况.png](./向前环形搜索到脏entry，向后环形查找到可覆盖的entry的情况.png)
 		
 		如图，slotToExpunge初始状态和staleSlot相同，当前向环形搜索遇到脏entry时，在第1行代码中slotToExpunge会更新为当前脏entry的索引i，直到遇到哈希桶（table[i]）为null的时候，前向搜索过程结束。在接下来的for循环中进行后向环形查找，若查找到了可覆盖的entry，第2,3,4行代码先覆盖当前位置的entry，然后再与staleSlot位置上的脏entry进行交换。交换之后脏entry就更换到了i处，最后使用cleanSomeSlots方法从slotToExpunge为起点开始进行清理脏entry的过程
 
 	- 1.2后向环形查找未找到可覆盖的entry 
 		该情形如下图所示。
-		![前向环形搜索到脏entry,向后环形未搜索可覆盖entry.png](http://upload-images.jianshu.io/upload_images/2615789-423c8c8dfb2e9557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+		![前向环形搜索到脏entry,向后环形未搜索可覆盖entry.png](./前向环形搜索到脏entry,向后环形未搜索可覆盖entry.png)
 		如图，slotToExpunge初始状态和staleSlot相同，当前向环形搜索遇到脏entry时，在第1行代码中slotToExpunge会更新为当前脏entry的索引i，直到遇到哈希桶（table[i]）为null的时候，前向搜索过程结束。在接下来的for循环中进行后向环形查找，若没有查找到了可覆盖的entry，哈希桶（table[i]）为null的时候，后向环形查找过程结束。那么接下来在8,9行代码中，将插入的新entry直接放在staleSlot处即可，最后使用cleanSomeSlots方法从slotToExpunge为起点开始进行清理脏entry的过程
 
 - 2.前向没有脏entry
 
 	- 2.1后向环形查找找到可覆盖的entry 
 		该情形如下图所示。
-		![前向未搜索到脏entry，后向环形搜索到可覆盖的entry.png.png](http://upload-images.jianshu.io/upload_images/2615789-018d077773a019dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+		![前向未搜索到脏entry，后向环形搜索到可覆盖的entry.png.png](./前向未搜索到脏entry，后向环形搜索到可覆盖的entry.png.png)
 		如图，slotToExpunge初始状态和staleSlot相同，当前向环形搜索直到遇到哈希桶（table[i]）为null的时候，前向搜索过程结束，若在整个过程未遇到脏entry，slotToExpunge初始状态依旧和staleSlot相同。在接下来的for循环中进行后向环形查找，若遇到了脏entry，在第7行代码中更新slotToExpunge为位置i。若查找到了可覆盖的entry，第2,3,4行代码先覆盖当前位置的entry，然后再与staleSlot位置上的脏entry进行交换，交换之后脏entry就更换到了i处。如果在整个查找过程中都还没有遇到脏entry的话，会通过第5行代码，将slotToExpunge更新当前i处，最后使用cleanSomeSlots方法从slotToExpunge为起点开始进行清理脏entry的过程。
 
 	 - 2.2后向环形查找未找到可覆盖的entry 
 		该情形如下图所示。
 
-![前向环形未搜索到脏entry,后向环形查找未查找到可覆盖的entry.png](http://upload-images.jianshu.io/upload_images/2615789-eee96f3eca481ae0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![前向环形未搜索到脏entry,后向环形查找未查找到可覆盖的entry.png](./前向环形未搜索到脏entry,后向环形查找未查找到可覆盖的entry.png)
 		
 		如图，slotToExpunge初始状态和staleSlot相同，当前向环形搜索直到遇到哈希桶（table[i]）为null的时候，前向搜索过程结束，若在整个过程未遇到脏entry，slotToExpunge初始状态依旧和staleSlot相同。在接下来的for循环中进行后向环形查找，若遇到了脏entry，在第7行代码中更新slotToExpunge为位置i。若没有查找到了可覆盖的entry，哈希桶（table[i]）为null的时候，后向环形查找过程结束。那么接下来在8,9行代码中，将插入的新entry直接放在staleSlot处即可。另外，如果发现slotToExpunge被重置，则第10行代码if判断为true,就使用cleanSomeSlots方法从slotToExpunge为起点开始进行清理脏entry的过程。
 
 
 下面用一个实例来有个直观的感受，示例代码就不给出了，代码debug时table状态如下图所示：
 
-![1.2情况示意图.png](http://upload-images.jianshu.io/upload_images/2615789-f26327e4bc42436a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![1.2情况示意图.png](./1.2情况示意图.png)
 
 如图所示，当前的staleSolt为i=4，首先先进行前向搜索脏entry，当i=3的时候遇到脏entry，slotToExpung更新为3，当i=2的时候tabel[2]为null，因此前向搜索脏entry的过程结束。然后进行后向环形查找，知道i=7的时候遇到table[7]为null，结束后向查找过程，并且在该过程并没有找到可以覆盖的entry。最后只能在staleSlot（4）处插入新entry，然后从slotToExpunge（3）为起点进行cleanSomeSlots进行脏entry的清理。是不是上面的1.2的情况。
 

@@ -65,7 +65,7 @@
 实例代码中开启了5个线程，先获取锁之后再睡眠10S中，实际上这里让线程睡眠是想模拟出当线程无法获取锁时进入同步队列的情况。通过debug，当Thread-4（在本例中最后一个线程）获取锁失败后进入同步时，AQS时现在的同步队列如图所示：
 
 
-![LockDemo debug下 .png](http://upload-images.jianshu.io/upload_images/2615789-d05d3f44ce4c205a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![LockDemo debug下 .png](./LockDemo debug下.png)
 
 
 Thread-0先获得锁后进行睡眠，其他线程（Thread-1,Thread-2,Thread-3,Thread-4）获取锁失败进入同步队列，同时也可以很清楚的看出来每个节点有两个域：prev(前驱)和next(后继)，并且每个节点用来保存获取同步状态失败的线程引用以及等待状态等信息。另外AQS中有两个重要的成员变量：
@@ -77,7 +77,7 @@ Thread-0先获得锁后进行睡眠，其他线程（Thread-1,Thread-2,Thread-3,
 
 
 
-![队列示意图.png](http://upload-images.jianshu.io/upload_images/2615789-dbfc975d3601bb52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![队列示意图.png](./队列示意图.png)
 
 
 
@@ -186,7 +186,7 @@ Thread-0先获得锁后进行睡眠，其他线程（Thread-1,Thread-2,Thread-3,
 程序逻辑通过注释已经标出，整体来看这是一个这又是一个自旋的过程（for (;;)），代码首先获取当前节点的先驱节点，**如果先驱节点是头结点的并且成功获得同步状态的时候（if (p == head && tryAcquire(arg))），当前节点所指向的线程能够获取锁**。反之，获取锁失败进入等待状态。整体示意图为下图：
 
 
-![自旋获取锁整体示意图.png](http://upload-images.jianshu.io/upload_images/2615789-3fe83cfaf03a02c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![自旋获取锁整体示意图.png](./自旋获取锁整体示意图.png)
 
 
 > **获取锁成功，出队操作**
@@ -214,7 +214,7 @@ setHead()方法为：
 
 
 
-![当前节点引用线程获取锁，当前节点设置为队列头结点.png](http://upload-images.jianshu.io/upload_images/2615789-13963e1b3bcfe656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![当前节点引用线程获取锁，当前节点设置为队列头结点.png](./当前节点引用线程获取锁，当前节点设置为队列头结点.png)
 
 
 那么当获取锁失败的时候会调用shouldParkAfterFailedAcquire()方法和parkAndCheckInterrupt()方法，看看他们做了什么事情。shouldParkAfterFailedAcquire()方法源码为：
@@ -268,7 +268,7 @@ shouldParkAfterFailedAcquire()方法主要逻辑是使用`compareAndSetWaitStatu
 
 
 
-![独占式锁获取（acquire()方法）流程图.png](http://upload-images.jianshu.io/upload_images/2615789-a0d913dc40da5629.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![独占式锁获取（acquire()方法）流程图.png](./独占式锁获取（acquire()方法）流程图.png)
 
 
 ## 3.2 独占锁的释放（release()方法） ##
@@ -432,7 +432,7 @@ shouldParkAfterFailedAcquire()方法主要逻辑是使用`compareAndSetWaitStatu
 
 程序逻辑如图所示：
 
-![超时等待式获取锁（doAcquireNanos()方法）](http://upload-images.jianshu.io/upload_images/2615789-a80779d4736afb87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![超时等待式获取锁（doAcquireNanos()方法）](./超时等待式获取锁（doAcquireNanos()方法）.png)
 
 
 

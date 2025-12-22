@@ -21,7 +21,7 @@
  
 下图总结了FutureTask的状态变化的过程：
 
-![FutureTask状态迁移图.jpg](https://upload-images.jianshu.io/upload_images/2615789-1be841dedd7c1df8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![FutureTask状态迁移图.jpg](./FutureTask状态迁移图.jpg)
 
 
 由于FutureTask具有这三种状态，因此执行FutureTask的get方法和cancel方法，当前处于不同的状态对应的结果也是大不相同。这里对get方法和cancel方法做个总结：
@@ -40,7 +40,7 @@
 
 对Future的get()方法和cancel()方法用下图进行总结
 
-![FutureTask的get和cancel的执行示意图.jpg](https://upload-images.jianshu.io/upload_images/2615789-c4b523533f024362.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![FutureTask的get和cancel的执行示意图.jpg](./FutureTask的get和cancel的执行示意图.jpg)
 
 
 # 2. FutureTask的基本使用 #

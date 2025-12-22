@@ -3,7 +3,7 @@
 ScheduledThreadPoolExecutor可以用来在给定延时后执行异步任务或者周期性执行任务，相对于任务调度的Timer来说，其功能更加强大，Timer只能使用一个后台线程执行任务，而ScheduledThreadPoolExecutor则可以通过构造函数来指定后台线程的个数。ScheduledThreadPoolExecutor类的UML图如下：
 
 
-![ScheduledThreadPoolExecutor类的UML图.png](https://upload-images.jianshu.io/upload_images/2615789-adf418781bb01bf1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![ScheduledThreadPoolExecutor类的UML图.png](./ScheduledThreadPoolExecutor类的UML图.png)
 
 
 

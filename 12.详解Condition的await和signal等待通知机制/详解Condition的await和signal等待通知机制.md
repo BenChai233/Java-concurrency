@@ -53,20 +53,20 @@
 	}
 这段代码没有任何实际意义，甚至很臭，只是想说明下我们刚才所想的。新建了10个线程，没有线程先获取锁，然后调用condition.await方法释放锁将当前线程加入到等待队列中，通过debug控制当走到第10个线程的时候查看`firstWaiter`即等待队列中的头结点，debug模式下情景图如下：
 
-![debug模式下情景图](http://upload-images.jianshu.io/upload_images/2615789-67a211209835e36d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![debug模式下情景图](./debug模式下情景图.png)
 
 
 
 从这个图我们可以很清楚的看到这样几点：1. 调用condition.await方法后线程依次尾插入到等待队列中，如图队列中的线程引用依次为Thread-0,Thread-1,Thread-2....Thread-8；2. 等待队列是一个单向队列。通过我们的猜想然后进行实验验证，我们可以得出等待队列的示意图如下图所示：
 
-![等待队列的示意图](http://upload-images.jianshu.io/upload_images/2615789-5aa1ee1ae8cb7f5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![等待队列的示意图](./等待队列的示意图.png)
 
 
 同时还有一点需要注意的是：我们可以多次调用lock.newCondition()方法创建多个condition对象，也就是一个lock可以持有多个等待队列。而在之前利用Object的方式实际上是指在**对象Object对象监视器上只能拥有一个同步队列和一个等待队列，而并发包中的Lock拥有一个同步队列和多个等待队列**。示意图如下：
 
 
 
-![AQS持有多个Condition.png](http://upload-images.jianshu.io/upload_images/2615789-6621181fc19603c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![AQS持有多个Condition.png](./AQS持有多个Condition.png)
 
 
 
@@ -152,7 +152,7 @@
 
 很显然，当线程第一次调用condition.await()方法时，会进入到这个while()循环中，然后通过LockSupport.park(this)方法使得当前线程进入等待状态，那么要想退出这个await方法第一个前提条件自然而然的是要先退出这个while循环，出口就只剩下两个地方：**1. 逻辑走到break退出while循环；2. while循环中的逻辑判断为false**。再看代码出现第1种情况的条件是当前等待的线程被中断后代码会走到break退出，第二种情况是当前节点被移动到了同步队列中（即另外线程调用的condition的signal或者signalAll方法），while中逻辑判断为false后结束while循环。总结下，就是**当前线程被中断或者调用condition.signal/condition.signalAll方法当前节点移动到了同步队列后** ，这是当前线程退出await方法的前提条件。当退出while循环后就会调用`acquireQueued(node, savedState)`，这个方法在介绍AQS的底层实现时说过了，若感兴趣的话可以去[看这篇文章](https://juejin.im/post/5aeb07ab6fb9a07ac36350c8)，该方法的作用是在**自旋过程中线程不断尝试获取同步状态，直至成功（线程获取到lock）**。这样也说明了**退出await方法必须是已经获得了condition引用（关联）的lock**。到目前为止，开头的三个问题我们通过阅读源码的方式已经完全找到了答案，也对await方法的理解加深。await方法示意图如下图：
 
-![await方法示意图](http://upload-images.jianshu.io/upload_images/2615789-1cb1c2fe3c1ddf38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![await方法示意图](./await方法示意图.png)
 
 
 
@@ -234,7 +234,7 @@ signal方法首先会检测当前线程是否已经获取lock，如果没有获�
 
 关键逻辑请看注释，这段代码主要做了两件事情1.将头结点的状态更改为CONDITION；2.调用enq方法，将该节点尾插入到同步队列中，关于enq方法请看AQS的底层实现这篇文章。现在我们可以得出结论：**调用condition的signal的前提条件是当前线程已经获取了lock，该方法会使得等待队列中的头节点即等待时间最长的那个节点移入到同步队列，而移入到同步队列后才有机会使得等待线程被唤醒，即从await方法中的LockSupport.park(this)方法中返回，从而才有机会使得调用await方法的线程成功退出**。signal执行示意图如下图：
 
-![signal执行示意图](http://upload-images.jianshu.io/upload_images/2615789-3750f5baf7995623.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![signal执行示意图](./signal执行示意图.png)
 
 
 
@@ -257,7 +257,7 @@ sigllAll与sigal方法的区别体现在doSignalAll方法上，前面我们已�
 # 3. await与signal/signalAll的结合思考 #
 文章开篇提到等待/通知机制，通过使用condition提供的await和signal/signalAll方法就可以实现这种机制，而这种机制能够解决最经典的问题就是“生产者与消费者问题”，关于“生产者消费者问题”之后会用单独的一篇文章进行讲解，这也是面试的高频考点。await和signal和signalAll方法就像一个开关控制着线程A（等待方）和线程B（通知方）。它们之间的关系可以用下面一个图来表现得更加贴切：
 
-![condition下的等待通知机制.png](http://upload-images.jianshu.io/upload_images/2615789-02449dc316fe1de6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![condition下的等待通知机制.png](./condition下的等待通知机制.png)
 
 
 如图，**线程awaitThread先通过lock.lock()方法获取锁成功后调用了condition.await方法进入等待队列，而另一个线程signalThread通过lock.lock()方法获取锁成功后调用了condition.signal或者signalAll方法，使得线程awaitThread能够有机会移入到同步队列中，当其他线程释放lock后使得线程awaitThread能够有机会获取lock，从而使得线程awaitThread能够从await方法中退出执行后续操作。如果awaitThread获取lock失败会直接进入到同步队列**。

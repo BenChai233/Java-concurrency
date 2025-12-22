@@ -8,7 +8,7 @@
 
 BlockingQueue基本操作总结如下（此图来源于JAVA API文档）：
 
-![BlockingQueue基本操作.png](http://upload-images.jianshu.io/upload_images/2615789-19d06e0ba334fe52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![BlockingQueue基本操作.png](./BlockingQueue基本操作.png)
 
 BlockingQueue继承于Queue接口，因此，对数据元素的基本操作有：
 
@@ -88,7 +88,7 @@ tryTransfer方法如果当前有消费者线程（调用take方法或者具有�
 
 LinkedBlockingDeque是基于链表数据结构的有界阻塞双端队列，如果在创建对象时为指定大小时，其默认大小为Integer.MAX_VALUE。与LinkedBlockingQueue相比，主要的不同点在于，LinkedBlockingDeque具有双端队列的特性。LinkedBlockingDeque基本操作如下图所示（来源于java文档）
 
-![LinkedBlockingDeque的基本操作.png](http://upload-images.jianshu.io/upload_images/2615789-d51d940d30786e32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+![LinkedBlockingDeque的基本操作.png](./LinkedBlockingDeque的基本操作.png)
 
 
 
@@ -97,7 +97,7 @@ LinkedBlockingDeque是基于链表数据结构的有界阻塞双端队列，如�
 另外，LinkedBlockingDeque实现了BlockingDueue接口而LinkedBlockingQueue实现的是BlockingQueue，这两个接口的主要区别如下图所示（来源于java文档）：
 
 
-![BlockingQueue和BlockingDeque的区别.png](http://upload-images.jianshu.io/upload_images/2615789-7316a2543b99caa2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600)
+![BlockingQueue和BlockingDeque的区别.png](./BlockingQueue和BlockingDeque的区别.png)
 
 从上图可以看出，两个接口的功能是可以等价使用的，比如BlockingQueue的add方法和BlockingDeque的addLast方法的功能是一样的。
 
