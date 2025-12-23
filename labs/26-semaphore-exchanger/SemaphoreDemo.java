@@ -18,7 +18,8 @@ public class SemaphoreDemo {
                 try {
                     semaphore.acquire();
                     int current = inCritical.incrementAndGet();
-                    maxObserved.updateAndGet(prev -> Math.max(prev, current));
+                    int finalCurrent = current;
+                    maxObserved.updateAndGet(prev -> Math.max(prev, finalCurrent));
                     System.out.println("worker-" + id + " enter, inCritical=" + current);
                     Thread.sleep(200);
                     current = inCritical.decrementAndGet();

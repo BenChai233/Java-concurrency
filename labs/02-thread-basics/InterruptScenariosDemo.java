@@ -43,18 +43,24 @@ public class InterruptScenariosDemo {
             long iterations = 0;
             long checksum = 0;
             long startNanos = System.nanoTime();
+            // 持续运行直到线程被中断，通过检查中断标志来响应中断请求
             while (!Thread.currentThread().isInterrupted()) {
                 iterations++;
+                // 执行一些计算工作，模拟繁忙的循环操作
                 checksum += (iterations & 7);
             }
+            // 计算线程执行的总耗时，单位为毫秒
             long elapsedMs = (System.nanoTime() - startNanos) / 1_000_000;
+            // 线程检测到中断后退出循环并输出相关信息
             System.out.println(ts() + " [busy] observed interrupt; isInterrupted=" + Thread.currentThread().isInterrupted());
             System.out.println(ts() + " [busy] iterations=" + iterations + ", checksum=" + checksum + ", elapsedMs=" + elapsedMs);
         }, "busy");
 
         busy.start();
+        // 等待200毫秒后发送中断信号
         Thread.sleep(200);
         System.out.println(ts() + " [main] interrupt busy");
+        // 调用interrupt()方法设置线程的中断标志，busy线程会检测到并退出
         busy.interrupt();
         busy.join();
     }

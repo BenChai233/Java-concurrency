@@ -114,11 +114,16 @@ public class JoinSleepYieldDaemonDemo {
 
         @Override
         public void run() {
+            // 计算截止时间点，用于控制线程运行时长
             long deadline = System.nanoTime() + duration.toNanos();
+            
+            // 在截止时间前持续循环计数
             while (System.nanoTime() < deadline) {
-                iterations++;
+                iterations++; // 增加迭代计数
+                
+                // 每1000次迭代检查一次是否需要让出CPU
                 if (doYield && (iterations % 1_000) == 0) {
-                    Thread.yield();
+                    Thread.yield(); // 让出CPU执行权，给其他线程机会
                 }
             }
         }
