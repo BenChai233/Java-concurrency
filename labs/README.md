@@ -31,6 +31,10 @@
 - [25-countdownlatch-cyclicbarrier](./25-countdownlatch-cyclicbarrier) - CountDownLatch 与 CyclicBarrier
 - [26-semaphore-exchanger](./26-semaphore-exchanger) - Semaphore 与 Exchanger
 - [27-producer-consumer](./27-producer-consumer) - 生产者-消费者
+- [28-virtual-threads](./28-virtual-threads) - Virtual Threads
+- [29-flow](./29-flow) - Flow API
+- [30-varhandle](./30-varhandle) - VarHandle and memory semantics
+- [31-completablefuture](./31-completablefuture) - CompletableFuture enhancements
 
 ## 统一运行方式
 

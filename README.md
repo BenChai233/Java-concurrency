@@ -31,6 +31,10 @@
 - [25.大白话说java并发工具类-CountDownLatch，CyclicBarrier](./25.大白话说java并发工具类-CountDownLatch，CyclicBarrier)
 - [26.大白话说java并发工具类-Semaphore，Exchanger](./26.大白话说java并发工具类-Semaphore，Exchanger)
 - [27.一篇文章，让你彻底弄懂生产者--消费者问题](./27.一篇文章，让你彻底弄懂生产者--消费者问题)
+- [28.Virtual Threads (JDK 21)](./28.%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B%EF%BC%88JDK%2021%EF%BC%89)
+- [29.Flow API (JDK 9)](./29.Flow%20API%EF%BC%88JDK%209%EF%BC%89)
+- [30.VarHandle and Memory Semantics (JDK 9)](./30.VarHandle%E4%B8%8E%E5%86%85%E5%AD%98%E8%AF%AD%E4%B9%89%EF%BC%88JDK%209%EF%BC%89)
+- [31.CompletableFuture Enhancements (JDK 9+)](./31.CompletableFuture%E5%A2%9E%E5%BC%BA%EF%BC%88JDK%209%2B%EF%BC%89)
 
 ## 实验
 
@@ -62,6 +66,10 @@
 - [labs/25-countdownlatch-cyclicbarrier](./labs/25-countdownlatch-cyclicbarrier) - CountDownLatch 与 CyclicBarrier
 - [labs/26-semaphore-exchanger](./labs/26-semaphore-exchanger) - Semaphore 与 Exchanger
 - [labs/27-producer-consumer](./labs/27-producer-consumer) - 生产者-消费者
+- [labs/28-virtual-threads](./labs/28-virtual-threads) - Virtual Threads
+- [labs/29-flow](./labs/29-flow) - Flow API
+- [labs/30-varhandle](./labs/30-varhandle) - VarHandle and memory semantics
+- [labs/31-completablefuture](./labs/31-completablefuture) - CompletableFuture enhancements
 
 ## 计划
 
