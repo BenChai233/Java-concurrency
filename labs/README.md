@@ -35,6 +35,7 @@
 - [29-flow](./29-flow) - Flow API
 - [30-varhandle](./30-varhandle) - VarHandle and memory semantics
 - [31-completablefuture](./31-completablefuture) - CompletableFuture enhancements
+- [32-reactor-foundation](./32-reactor-foundation) - Reactor foundations via JDK Flow
 
 ## 统一运行方式
 

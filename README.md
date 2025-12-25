@@ -35,6 +35,7 @@
 - [29.Flow API (JDK 9)](./29.Flow%20API%EF%BC%88JDK%209%EF%BC%89)
 - [30.VarHandle and Memory Semantics (JDK 9)](./30.VarHandle%E4%B8%8E%E5%86%85%E5%AD%98%E8%AF%AD%E4%B9%89%EF%BC%88JDK%209%EF%BC%89)
 - [31.CompletableFuture Enhancements (JDK 9+)](./31.CompletableFuture%E5%A2%9E%E5%BC%BA%EF%BC%88JDK%209%2B%EF%BC%89)
+- [32.Reactor (Project Reactor)](./32.Reactor%EF%BC%88Project%20Reactor%EF%BC%89)
 
 ## 实验
 
@@ -70,6 +71,7 @@
 - [labs/29-flow](./labs/29-flow) - Flow API
 - [labs/30-varhandle](./labs/30-varhandle) - VarHandle and memory semantics
 - [labs/31-completablefuture](./labs/31-completablefuture) - CompletableFuture enhancements
+- [labs/32-reactor-foundation](./labs/32-reactor-foundation) - Reactor foundations via JDK Flow
 
 ## 计划
 
