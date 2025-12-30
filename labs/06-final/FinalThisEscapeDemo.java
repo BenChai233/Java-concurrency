@@ -25,18 +25,19 @@ public class FinalThisEscapeDemo {
         Escapee() {
             // 在对象完全初始化之前将 this 引用逸出到共享变量
             // 这会破坏 final 字段的语义保证
-            shared = this; // escape before initialization completes
+            // 注意：在这个版本中，我们先设置字段值再进行 this 逸出
+            // 但这仍然可能在某些 JVM 实现或条件下产生不可预测的结果
+            finalValue = 1;      // 先设置 final 字段
+            plainValue = 1;      // 再设置普通字段
             
-            // 引入延迟以增加观察到未初始化状态的机会
+            shared = this;       // 然后逸出 this 引用
+
+            // 这里可以添加一些额外的操作
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-            
-            // 在 this 引用逸出后设置字段值
-            plainValue = 1;
-            finalValue = 1;
         }
     }
 
@@ -48,7 +49,7 @@ public class FinalThisEscapeDemo {
      */
     public static void main(String[] args) throws Exception {
         // 解析命令行参数，确定迭代次数
-        int iterations = args.length > 0 ? Integer.parseInt(args[0]) : 100_000;
+        int iterations = args.length > 0 ? Integer.parseInt(args[0]) : 1000;
         
         // 计数器：记录观察到错误值的次数
         int plainBad = 0;  // 普通字段错误次数
