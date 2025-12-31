@@ -59,12 +59,12 @@ public class OrderingSummaryDemo {
                 start.await();
                 if (shared instanceof Plain) {
                     Plain p = (Plain) shared;
-                    result.r1 = p.y;
                     p.x = 1;
+                    result.r1 = p.y;
                 } else {
                     WithVolatile v = (WithVolatile) shared;
-                    result.r1 = v.y;
                     v.x = 1;
+                    result.r1 = v.y;
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -78,12 +78,12 @@ public class OrderingSummaryDemo {
                 start.await();
                 if (shared instanceof Plain) {
                     Plain p = (Plain) shared;
-                    result.r2 = p.x;
                     p.y = 1;
+                    result.r2 = p.x;
                 } else {
                     WithVolatile v = (WithVolatile) shared;
-                    result.r2 = v.x;
                     v.y = 1;
+                    result.r2 = v.x;
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
