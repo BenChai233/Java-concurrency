@@ -88,6 +88,7 @@ public class AqsSharedExclusiveDemo {
                 try {
                     System.out.println("latch waiter t" + id + " waiting");
                     // 等待门闩计数变为0，会阻塞当前线程
+                    //  A：count 从 1 变 0 的那一刻，会释放所有已在等待的线程（会看到 3 个 waiter 基本同时在 ~200ms 后“released”）。
                     latch.await();
                     long waitedMs = (System.nanoTime() - startAt) / 1_000_000;
                     System.out.println("latch waiter t" + id + " released waitedMs=" + waitedMs);
