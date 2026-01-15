@@ -9,6 +9,7 @@ public class ReentrantLockInterruptDemo {
             try {
                 sleep(1000);
             } finally {
+                System.out.println("holder unlock");
                 LOCK.unlock();
             }
         }, "holder");
@@ -20,6 +21,7 @@ public class ReentrantLockInterruptDemo {
                 try {
                     System.out.println("waiter acquired");
                 } finally {
+                    System.out.println("waiter unlock");
                     LOCK.unlock();
                 }
             } catch (InterruptedException e) {
